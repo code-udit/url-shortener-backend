@@ -58,6 +58,28 @@ router.post("/shorten", async (req, res) => {
   }
 });
 
+router.get("/:code", async (req, res) => {
+  try {
+    const { code } = req.params;
+
+    const result = await pool.query(
+      "SELECT original_url FROM urls WHERE short_code = $1",
+      [code]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "URL not found" });
+    }
+
+    const originalUrl = result.rows[0].original_url;
+
+    return res.redirect(originalUrl);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 /* ✅ ANALYTICS ROUTE */
 router.get("/analytics/:shortCode", async (req, res) => {
   try {
