@@ -1,10 +1,15 @@
 const express = require("express");
 require("dotenv").config();
 const pool = require("./src/config/db");
+const cors = require("cors");
 
 const urlRoutes = require("./src/routes/urlRoutes");
 
 const app = express();
+
+app.use(cors({
+  origin: "*"
+}));
 
 // Middleware
 app.use(express.json());
