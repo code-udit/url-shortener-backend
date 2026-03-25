@@ -21,6 +21,10 @@ app.get("/", (req, res) => {
   res.send("Server is running 🚀");
 });
 
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
 // Redirect route
 app.get("/:shortCode", async (req, res) => {
   try {
